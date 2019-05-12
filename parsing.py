@@ -11,3 +11,4 @@ def fill():
 
 f = open('mess.txt', 'r')
 for line in f:
+	bankname = 

@@ -1,5 +1,8 @@
 import sys
 import time
+from openpyxl import load_workbook
+import os
+import sys
 
 
 class PersonalManager:
@@ -8,6 +11,12 @@ class PersonalManager:
         '2. Expences per month',
         '3. Exit from the program'
     ]
+
+    table_name = 'table.xlsx'
+
+    message_file = 'mess.txt'
+
+    folder_path = sys.path[0]
 
     def __init__(self):
         self.banks = []
@@ -46,24 +55,56 @@ class PersonalManager:
                 print('Invalid date!')
 
             print('\nSelect a credit card: ')
-            pos = {}
-            position = 1
-            for bank in self.banks:
-                for card in bank.cards_num:
-                    pos[position] = pos.get(position, [bank.name, card])
-                    print(f'{position}. {card}, {bank.name}')
-
-                    position += 1
-            print(f'\n{position + 1}. Total')
-            print(f'\n{position + 2}. Exit to main menu')
-            pos[position + 1] = pos.get(position + 1, self.total)
-            pos[position + 2] = pos.get(position + 2, self.work)
+            pos, date = self.card_monthly(self, valid_date)
             ans = input('\nYour choice: ')
             choice = pos.get(int(ans))
             choice()
+
+    def card_monthly(self, date):
+        pos = {}
+        position = 1
+        for bank in self.banks:
+            for card in bank.cards_num:
+                pos[position] = pos.get(position, [bank.name, card])
+                print(f'{position}. {card}, {bank.name}')
+                position += 1
+        print(f'\n{position + 1}. Total')
+        print(f'\n{position + 2}. Exit to main menu')
+        pos[position + 1] = pos.get(position + 1, self.total)
+        pos[position + 2] = pos.get(position + 2, self.work)
+        return (pos, date)
 
     def exit(self):
         sys.exit()
 
     def total(self):
         pass
+
+    def filling(self):
+        table_path = os.path.join(self.folder_path, self.table_name)
+        wb = load_workbook(table_path)
+        sheet = wb.active
+        captions = [
+            {
+                1: 'Bank Name',
+                2: 'Card Number',
+                3: 'Operation',
+                4: 'Summ',
+                5: 'Balance'
+            }
+        ]
+
+        for name in captions:
+            row = []
+            for capt in name:
+                row.append(name[capt])
+            sheet.append(row)
+
+        wb.save(table_path)
+
+    def parse(self):
+        mess_path = os.path.join(self.folder_path, self.message_file)
+        mess_text = open(mess_path, 'r')
+        for line in mess_text:
+            line.startswith(self.banks.phone)
+            
