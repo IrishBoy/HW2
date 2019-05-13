@@ -7,7 +7,7 @@ def main():
 
     assiatant.add_bank(Bank('SuperBank',
                             480,
-                            'card *'
+                            'card *',
                             [6678, 6623],
                             'Withdrawal:',
                             'Transfer:',
@@ -15,7 +15,7 @@ def main():
 
     assiatant.add_bank(Bank('GorgeousBank',
                             720,
-                            '*'
+                            '*',
                             [1238, 1253],
                             ': -',
                             ': +',

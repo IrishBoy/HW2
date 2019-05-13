@@ -80,7 +80,7 @@ class PersonalManager:
     def total(self):
         pass
 
-    def filling(self):
+    def caption(self):
         table_path = os.path.join(self.folder_path, self.table_name)
         wb = load_workbook(table_path)
         sheet = wb.active
@@ -106,5 +106,9 @@ class PersonalManager:
         mess_path = os.path.join(self.folder_path, self.message_file)
         mess_text = open(mess_path, 'r')
         for line in mess_text:
-            line.startswith(self.banks.phone)
-            
+            row = []
+            for bank in self.bank:
+                if line.startswith(bank.phone):
+                    row.append(bank.name)
+                    
+
