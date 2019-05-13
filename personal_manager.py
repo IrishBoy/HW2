@@ -55,7 +55,7 @@ class PersonalManager:
                 print('Invalid date!')
 
             print('\nSelect a credit card: ')
-            pos, date = self.card_monthly(self, valid_date)
+            pos, date = self.card_monthly(valid_date)
             ans = input('\nYour choice: ')
             choice = pos.get(int(ans))
             choice()
@@ -102,13 +102,31 @@ class PersonalManager:
 
         wb.save(table_path)
 
-    def parse(self):
-        mess_path = os.path.join(self.folder_path, self.message_file)
-        mess_text = open(mess_path, 'r')
-        for line in mess_text:
-            row = []
-            for bank in self.bank:
-                if line.startswith(bank.phone):
-                    row.append(bank.name)
-                    
+    # def parse(self):
+    #     mess_path = os.path.join(self.folder_path, self.message_file)
+    #     mess_text = open(mess_path, 'r')
+    #     for line in mess_text:
+    #         row = []
+    #         for bank in self.bank:
+    #             if line.startswith(bank.phone):
+    #                 row.append(bank.name)
 
+
+# class Table:
+
+#     table_name = 'table.xlsx'
+
+#     message_file = 'mess.txt'
+
+#     folder_path = sys.path[0]
+
+#     def __init__(self):
+#         self.banks = []
+
+#     def add_bank(self, bank):
+#         self.banks.append(bank)
+
+#     def fill(self):
+#         while True:
+#             for bank in self.banks:
+#                 print(bank.phone)
