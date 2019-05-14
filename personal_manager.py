@@ -30,6 +30,7 @@ class PersonalManager:
 
     def work(self):
         while True:
+            print(self.banks)
             print('\nPossible operations:')
             for operation in self.possible_operations:
                 print(operation)
