@@ -3,7 +3,6 @@ import os
 import sys
 
 
-
 class Table:
 
     table_name = 'table.xlsx'
@@ -15,13 +14,12 @@ class Table:
     def __init__(self):
         self.banks = []
 
-    def add_bank(self, bank):
+    def addbank(self, bank):
         self.banks.append(bank)
 
-    def fill(self):
-        while True:
-            for bank in self.banks:
-                print(bank.phone)
+    def work(self):
+        for bank in self.banks:
+            print(bank.name)
 
 # def caption():
 #     table_path = os.path.join(folder_path, table_name)

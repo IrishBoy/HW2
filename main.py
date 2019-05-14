@@ -4,9 +4,26 @@ from table_filling import Table
 
 
 def main():
-    assiatant = PersonalManager()
+    assistant = PersonalManager()
     table = Table()
-    table.add_bank(Bank('SuperBank',
+
+    table.addbank(Bank('SuperBank',
+                       480,
+                       'card *',
+                       [6678, 6623],
+                       'Withdrawal:',
+                       'Transfer:',
+                       'balance: '))
+
+    table.addbank(Bank('GorgeousBank',
+                       720,
+                       '*',
+                       [1238, 1253],
+                       ': -',
+                       ': +',
+                       'left: '))
+
+    assistant.add_bank(Bank('SuperBank',
                             480,
                             'card *',
                             [6678, 6623],
@@ -14,31 +31,15 @@ def main():
                             'Transfer:',
                             'balance: '))
 
-    table.add_bank(Bank('GorgeousBank',
+    assistant.add_bank(Bank('GorgeousBank',
                             720,
                             '*',
                             [1238, 1253],
                             ': -',
                             ': +',
                             'left: '))
-    assiatant.add_bank(Bank('SuperBank',
-                            480,
-                            'card *',
-                            [6678, 6623],
-                            'Withdrawal:',
-                            'Transfer:',
-                            'balance: '))
-
-    assiatant.add_bank(Bank('GorgeousBank',
-                            720,
-                            '*',
-                            [1238, 1253],
-                            ': -',
-                            ': +',
-                            'left: '))
-    table.fill()
-
-    # assiatant.work()
+    table.work()
+    assistant.work()
 
 
 if __name__ == '__main__':

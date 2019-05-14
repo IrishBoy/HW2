@@ -3,6 +3,7 @@ import time
 from openpyxl import load_workbook
 import os
 import sys
+from table_filling import Table
 
 
 class PersonalManager:
@@ -12,11 +13,14 @@ class PersonalManager:
         '3. Exit from the program'
     ]
 
-    table_name = 'table.xlsx'
+    # table_name = 'table.xlsx'
 
-    message_file = 'mess.txt'
+    # message_file = 'mess.txt'
 
-    folder_path = sys.path[0]
+    # folder_path = sys.path[0]
+
+    table = Table()
+    table.work()
 
     def __init__(self):
         self.banks = []
@@ -110,23 +114,3 @@ class PersonalManager:
     #         for bank in self.bank:
     #             if line.startswith(bank.phone):
     #                 row.append(bank.name)
-
-
-# class Table:
-
-#     table_name = 'table.xlsx'
-
-#     message_file = 'mess.txt'
-
-#     folder_path = sys.path[0]
-
-#     def __init__(self):
-#         self.banks = []
-
-#     def add_bank(self, bank):
-#         self.banks.append(bank)
-
-#     def fill(self):
-#         while True:
-#             for bank in self.banks:
-#                 print(bank.phone)
