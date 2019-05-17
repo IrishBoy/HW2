@@ -19,8 +19,8 @@ class PersonalManager:
 
     # folder_path = sys.path[0]
 
-    table = Table()
-    table.work()
+    # table = Table()
+    # table.work()
 
     def __init__(self):
         self.banks = []
@@ -58,7 +58,6 @@ class PersonalManager:
                 valid_date = time.strptime(us_date, '%m-%Y')
             except ValueError:
                 print('Invalid date!')
-
             print('\nSelect a credit card: ')
             pos, date = self.card_monthly(valid_date)
             ans = input('\nYour choice: ')
