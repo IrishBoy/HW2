@@ -47,6 +47,7 @@ class Table:
                     b_start = bank.balance
                     b_end = bank.b_end
                     searchObj = re.search( r'{}(.*){}{}(.*?){}(.*).*'.format(s_start, s_end, b_start, b_end), line, re.M|re.I)
+                    if searchObj:
                         row.append(searchObj.group(1))
                         row.append(searchObj.group(2))
                         row.append(searchObj.group(3))
