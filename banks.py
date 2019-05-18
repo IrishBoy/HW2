@@ -1,10 +1,13 @@
 class Bank:
 
-    def __init__(self, name, phone, carddet, cards_num, minus, plus, balance):
+    def __init__(self, name, phone, card_start, cards_num, sum_start, sum_end, minus, plus, balance, b_end):
         self.name = name
         self.phone = phone
-        self.carddet = carddet
+        self.card_start = card_start
         self.cards_num = cards_num
+        self.sum_start = sum_start
+        self.sum_end = sum_end
         self.minus = minus
         self.plus = plus
         self.balance = balance
+        self.b_end = b_end

@@ -11,33 +11,45 @@ def main():
                        480,
                        'card *',
                        [6678, 6623],
+                       ': '
+                       ' EUR, ',
                        'Withdrawal:',
                        'Transfer:',
-                       'balance: '))
+                       'balance: ',
+                       ' EUR '))
 
     table.addbank(Bank('GorgeousBank',
                        720,
                        '*',
                        [1238, 1253],
+                       '',
+                       ' EUR, ',
                        ': -',
                        ': +',
-                       'left: '))
+                       'left: ',
+                       ' EUR '))
 
     assistant.add_bank(Bank('SuperBank',
                             480,
                             'card *',
                             [6678, 6623],
+                            ': '
+                            ' EUR, ',
                             'Withdrawal:',
                             'Transfer:',
-                            'balance: '))
+                            'balance: ',
+                            ' EUR '))
 
     assistant.add_bank(Bank('GorgeousBank',
                             720,
                             '*',
                             [1238, 1253],
+                            '',
+                            ' EUR, ',
                             ': -',
                             ': +',
-                            'left: '))
+                            'left: '
+                            ' EUR '))
     table.work()
     assistant.work()
 

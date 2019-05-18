@@ -20,21 +20,41 @@ class Table:
 
     def work(self):
         pass
-    #     mess_path = os.path.join(self.folder_path, self.message_file)
-    #     mess_text = open(mess_path, 'r')
-    #     for line in mess_text:
-    #         row = []
-    #         for banks in self.banks:
-    #             if line.startswith(str(banks.phone)):
-    #                 row.append(banks.name)
-    #                 print(row)
-    #                 for card in banks.cards_num:
-    #                     card_parse = Word(nums, exact=len(str(card)))
-    #                     grammar = Literal(banks.carddet).suppress() + card_parse
-    #                     cur_card = grammar.parseString(line)
-    #                     if cur_card == card:
-    #                         row.append(cur_card)
-    #     print(row)
+        mess_path = os.path.join(self.folder_path, self.message_file)
+        mess_text = open(mess_path, 'r')
+        for line in mess_text:
+            row = []
+            for bank in self.banks:
+                if line.startswith(str(bank.phone)):
+                    row.append(bank.name)
+                    line = line.replace(str(bank.phone), '', 1)
+                    for card in bank.cards_num:
+                        cur_card = bank.card_start + str(card)
+                        if cur_card in line:
+                            row.append(card)
+                            line = line.replace(str(bank.card_start) + str(card), '', 1)
+                    if bank.minus in line:
+                        row.append('minus')
+                        line = line.replace(bank.minus, '', 1)
+                    elif bank.plus in line:
+                        row.append('plus')
+                        line = line.replace(bank.plus, '', 1)
+                    line = line.lstrip()
+                    cur_sum_end = bank.sum_end
+                    cur_sum_start = bank.sum_start
+                    s_start = bank.sum_start
+                    s_end = bank.sum_end
+                    b_start = bank.balance
+                    b_end = bank.b_end
+                    searchObj = re.search( r'{}(.*){}{}(.*?){}(.*).*'.format(s_start, s_end, b_start, b_end), line, re.M|re.I)
+                        row.append(searchObj.group(1))
+                        row.append(searchObj.group(2))
+                        row.append(searchObj.group(3))
+                    else:
+                        print("Nothing found!!")
+
+                    print(row)
+
 
 
 # def caption():
