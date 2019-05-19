@@ -1,8 +1,8 @@
 from openpyxl import *
 import os
 import sys
-from pyparsing import *
 import re
+import pandas as pd
 
 
 class Table:
@@ -21,7 +21,8 @@ class Table:
 
     def work(self):
         rows = self.parse()
-        self.fill(rows)
+        if rows is not None:
+            self.fill(rows)
 
     def parse(self):
         mess_path = os.path.join(self.folder_path, self.message_file)
@@ -51,19 +52,35 @@ class Table:
                     b_end = bank.b_end
                     searchObj = re.search( r'{}(.*){}{}(.*?){}(.*).*'.format(s_start, s_end, b_start, b_end), line, re.M|re.I)
                     if searchObj:
-                        row.append(searchObj.group(1))
-                        row.append(searchObj.group(2))
+                        row.append(int(searchObj.group(1)))
+                        row.append(int(searchObj.group(2)))
                         row.append(searchObj.group(3))
                     else:
                         print("Nothing found!!")
                     result.append(row)
+                    # print(result, 1)
         mess_text.close()
-        if result != None:
+        if result != [] and result is not None:
             return result
+
 
     def fill(self, rows):
         table_path = os.path.join(self.folder_path, self.table_name)
-        print(rows)
+        # wb = load_workbook(table_path)
+        # print(wb.get_sheet_names())
+        # sheet = wb.active
+        # table = []
+        captions = ('Bank Name', 'Card', 'Operation', 'Sum of operation', 'Balance', 'Date')
+        table = pd.DataFrame(rows, columns=captions)
+        export_excel = table.to_excel(r'{}'.format(table_path), index=None)
+        print(table)
+        # table.append(captions)
+        # for i in rows:
+        #     i = tuple(i)
+        #     table.append(i)
+        # for row in rows:
+        #     sheet.append(row)
+        # wb.save(table_path)
 
 # def caption():
 #     table_path = os.path.join(folder_path, table_name)
