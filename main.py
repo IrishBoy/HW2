@@ -11,7 +11,7 @@ def main():
                        480,
                        'card *',
                        [6678, 6623],
-                       ': '
+                       ': ',
                        ' EUR, ',
                        'Withdrawal:',
                        'Transfer:',
@@ -33,7 +33,7 @@ def main():
                             480,
                             'card *',
                             [6678, 6623],
-                            ': '
+                            ': ',
                             ' EUR, ',
                             'Withdrawal:',
                             'Transfer:',
@@ -48,7 +48,7 @@ def main():
                             ' EUR, ',
                             ': -',
                             ': +',
-                            'left: '
+                            'left: ',
                             ' EUR '))
     table.work()
     assistant.work()

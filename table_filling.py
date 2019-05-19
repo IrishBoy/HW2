@@ -2,6 +2,7 @@
 import os
 import sys
 from pyparsing import *
+import re
 
 
 class Table:
@@ -19,7 +20,6 @@ class Table:
         self.banks.append(bank)
 
     def work(self):
-        pass
         mess_path = os.path.join(self.folder_path, self.message_file)
         mess_text = open(mess_path, 'r')
         for line in mess_text:
@@ -40,8 +40,6 @@ class Table:
                         row.append('plus')
                         line = line.replace(bank.plus, '', 1)
                     line = line.lstrip()
-                    cur_sum_end = bank.sum_end
-                    cur_sum_start = bank.sum_start
                     s_start = bank.sum_start
                     s_end = bank.sum_end
                     b_start = bank.balance

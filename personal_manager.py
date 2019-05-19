@@ -19,8 +19,8 @@ class PersonalManager:
 
     # folder_path = sys.path[0]
 
-    # table = Table()
-    # table.work()
+    table = Table()
+    table.work()
 
     def __init__(self):
         self.banks = []
