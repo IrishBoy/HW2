@@ -1,4 +1,4 @@
-# from openpyxl import load_workbook
+from openpyxl import *
 import os
 import sys
 from pyparsing import *
@@ -20,8 +20,13 @@ class Table:
         self.banks.append(bank)
 
     def work(self):
+        rows = self.parse()
+        self.fill(rows)
+
+    def parse(self):
         mess_path = os.path.join(self.folder_path, self.message_file)
         mess_text = open(mess_path, 'r')
+        result = []
         for line in mess_text:
             row = []
             for bank in self.banks:
@@ -51,10 +56,14 @@ class Table:
                         row.append(searchObj.group(3))
                     else:
                         print("Nothing found!!")
+                    result.append(row)
+        mess_text.close()
+        if result != None:
+            return result
 
-                    print(row)
-
-
+    def fill(self, rows):
+        table_path = os.path.join(self.folder_path, self.table_name)
+        print(rows)
 
 # def caption():
 #     table_path = os.path.join(folder_path, table_name)

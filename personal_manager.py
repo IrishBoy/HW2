@@ -30,7 +30,6 @@ class PersonalManager:
 
     def work(self):
         while True:
-            print(self.banks)
             print('\nPossible operations:')
             for operation in self.possible_operations:
                 print(operation)
@@ -84,27 +83,6 @@ class PersonalManager:
     def total(self):
         pass
 
-    def caption(self):
-        table_path = os.path.join(self.folder_path, self.table_name)
-        wb = load_workbook(table_path)
-        sheet = wb.active
-        captions = [
-            {
-                1: 'Bank Name',
-                2: 'Card Number',
-                3: 'Operation',
-                4: 'Summ',
-                5: 'Balance'
-            }
-        ]
-
-        for name in captions:
-            row = []
-            for capt in name:
-                row.append(name[capt])
-            sheet.append(row)
-
-        wb.save(table_path)
 
     # def parse(self):
     #     mess_path = os.path.join(self.folder_path, self.message_file)
