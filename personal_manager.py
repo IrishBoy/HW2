@@ -56,13 +56,13 @@ class PersonalManager:
 
             try:
                 valid_date = time.strptime(us_date, '%m-%Y')
+                print('\nSelect a credit card: ')
+                pos, date = self.card_monthly(valid_date)
+                ans = input('\nYour choice: ')
+                choice = pos.get(int(ans))
+                choice()
             except ValueError:
                 print('Invalid date!')
-            print('\nSelect a credit card: ')
-            pos, date = self.card_monthly(valid_date)
-            ans = input('\nYour choice: ')
-            choice = pos.get(int(ans))
-            choice()
 
     def card_monthly(self, date):
         pos = {}
