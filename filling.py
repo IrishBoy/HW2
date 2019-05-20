@@ -16,13 +16,9 @@ class Table_fill:
         table_path = os.path.join(self.folder_path, self.table_name)
         captions = ('Bank Name', 'Card', 'Operation', 'Balance', 'Date', 'Сurrency')
         table = pd.DataFrame(rows, columns=captions)
-        # export_excel = table.to_excel(r'{}'.format(table_path), index=None)
-        # cur_state = table.groupby(['Card', 'Bank Name']).sum()
         table['Date'] = pd.to_datetime(table.Date)
         table = table.sort_values(by='Date')
         table = table.reset_index(drop=True)
-        # total = table.sort_values()
-        # print(total)
         return table
 
     def total(self, info):
