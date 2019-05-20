@@ -1,9 +1,9 @@
 import sys
 import time
-from openpyxl import load_workbook
 import os
 import sys
-from table_filling import Table
+from parse import Table
+from filling import Table_fill
 
 
 class PersonalManager:
@@ -12,13 +12,7 @@ class PersonalManager:
         '2. Expences per month',
         '3. Exit from the program'
     ]
-
-    # table_name = 'table.xlsx'
-
-    # message_file = 'mess.txt'
-
-    # folder_path = sys.path[0]
-
+    table_fill = Table_fill()
     table = Table()
     table.work()
 
@@ -45,7 +39,11 @@ class PersonalManager:
         choice()
 
     def current_funds(self):
-        pass
+        infos = {}
+        for bank in self.banks:
+            infos[bank.name] = infos.get(bank.name, bank.cards_num)
+        # print(infos)
+        self.table_fill.total(infos)
 
     def monthly(self):
         while True:

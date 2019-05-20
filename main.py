@@ -1,6 +1,6 @@
 from banks import Bank
 from personal_manager import PersonalManager
-from table_filling import Table
+from parse import Table
 
 
 def main():
@@ -16,7 +16,8 @@ def main():
                        'Withdrawal:',
                        'Transfer:',
                        'balance: ',
-                       ' EUR '))
+                       ' EUR ',
+                       'EUR'))
 
     table.addbank(Bank('GorgeousBank',
                        720,
@@ -27,7 +28,8 @@ def main():
                        ': -',
                        ': +',
                        'left: ',
-                       ' EUR '))
+                       ' EUR ',
+                       'EUR'))
 
     assistant.add_bank(Bank('SuperBank',
                             480,
@@ -38,7 +40,8 @@ def main():
                             'Withdrawal:',
                             'Transfer:',
                             'balance: ',
-                            ' EUR '))
+                            ' EUR ',
+                            'EUR'))
 
     assistant.add_bank(Bank('GorgeousBank',
                             720,
@@ -49,7 +52,8 @@ def main():
                             ': -',
                             ': +',
                             'left: ',
-                            ' EUR '))
+                            ' EUR ',
+                            'EUR'))
     table.work()
     assistant.work()
 
