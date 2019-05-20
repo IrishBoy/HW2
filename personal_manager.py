@@ -3,7 +3,7 @@ import time
 import os
 import sys
 from parse import Table
-from filling import Table_fill
+from filling import total
 
 
 class PersonalManager:
@@ -12,7 +12,6 @@ class PersonalManager:
         '2. Expences per month',
         '3. Exit from the program'
     ]
-    table_fill = Table_fill()
     table = Table()
     table.work()
 
@@ -43,7 +42,7 @@ class PersonalManager:
         for bank in self.banks:
             infos[bank.name] = infos.get(bank.name, bank.cards_num)
         # print(infos)
-        self.table_fill.total(infos)
+        total(infos)
 
     def monthly(self):
         while True:

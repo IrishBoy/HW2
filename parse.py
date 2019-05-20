@@ -4,7 +4,7 @@ import sys
 import re
 import pandas as pd
 import datetime
-from filling import Table_fill
+from filling import work
 
 
 class Table:
@@ -15,18 +15,18 @@ class Table:
 
     folder_path = sys.path[0]
 
-    table_fill = Table_fill()
-
     def __init__(self):
         self.banks = []
+        self.rows = []
 
     def addbank(self, bank):
         self.banks.append(bank)
 
     def work(self):
-        rows = self.parse()
-        if rows is not None:
-            self.table_fill.work(rows)
+        cur_rows = self.parse()
+        if cur_rows is not None:
+            self.rows = cur_rows
+            work(cur_rows)
 
     def parse(self):
         mess_path = os.path.join(self.folder_path, self.message_file)
