@@ -3,7 +3,7 @@ import time
 import os
 import sys
 from parse import Table
-from filling import total
+from filling import total, monthly_total, card_monthly
 
 
 class PersonalManager:
@@ -41,7 +41,6 @@ class PersonalManager:
         infos = {}
         for bank in self.banks:
             infos[bank.name] = infos.get(bank.name, bank.cards_num)
-        # print(infos)
         total(infos)
 
     def monthly(self):
@@ -55,8 +54,15 @@ class PersonalManager:
                 print('\nSelect a credit card: ')
                 pos, date = self.card_monthly(valid_date)
                 ans = input('\nYour choice: ')
-                choice = pos.get(int(ans))
-                choice()
+                while True:
+                    try:
+                        ans = int(ans)
+                        if int(ans) == len(pos):
+                            pos[int(ans)]()
+                        elif int(ans) in pos:
+                            pos[int(ans)]([pos[int(ans)], date])
+                    except ValueError:
+                        print('Invalid choice')
             except ValueError:
                 print('Invalid date!')
 
@@ -65,13 +71,14 @@ class PersonalManager:
         position = 1
         for bank in self.banks:
             for card in bank.cards_num:
-                pos[position] = pos.get(position, [bank.name, card])
+                pos[position] = pos.get(position, card_monthly)
                 print(f'{position}. {card}, {bank.name}')
                 position += 1
-        print(f'\n{position + 1}. Total')
-        print(f'\n{position + 2}. Exit to main menu')
-        pos[position + 1] = pos.get(position + 1, self.total)
-        pos[position + 2] = pos.get(position + 2, self.work)
+        print(f'\n{position}. Total')
+        # pos[position + 1] = pos.get(position, 'Total')
+        print(f'\n{position + 1}. Exit to main menu')
+        pos[position] = pos.get(position, monthly_total)
+        pos[position + 1] = pos.get(position + 1, self.work)
         return (pos, date)
 
     def exit(self):
