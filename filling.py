@@ -6,7 +6,6 @@ import numpy as np
 
 def work(rows):
     ops_table = fill(rows)
-    print(ops_table)
 
 
 def fill(rows):

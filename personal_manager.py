@@ -34,8 +34,17 @@ class PersonalManager:
             2: self.monthly,
             3: self.exit
         }
-        choice = operations.get(int(number))
-        choice()
+        while True:
+            try:
+                ans = int(number)
+                try:
+                    operations[ans]
+                    choice = operations[ans]
+                    choice()
+                except KeyError:
+                    print('Invalid choice')
+            except ValueError:
+                print('Invalid choice')
 
     def current_funds(self):
         infos = {}
@@ -56,11 +65,12 @@ class PersonalManager:
                 ans = input('\nYour choice: ')
                 while True:
                     try:
-                        ans = int(ans)
-                        if int(ans) == len(pos):
-                            pos[int(ans)]()
-                        elif int(ans) in pos:
-                            pos[int(ans)]([pos[int(ans)], date])
+                        val = pos.get(ans, None)
+                        if val is not None:
+                            if int(ans) == len(pos):
+                                pos[int(ans)]()
+                            elif int(ans) in pos:
+                                pos[int(ans)]([pos[int(ans)], date])
                     except ValueError:
                         print('Invalid choice')
             except ValueError:
