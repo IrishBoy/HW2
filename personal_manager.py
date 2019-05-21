@@ -83,7 +83,7 @@ class PersonalManager:
             for card in bank.cards_num:
                 info = {}
                 pos[position] = pos.get(position, card_monthly)
-                info['Banks'] = info.get('Bank', bank.name)
+                info['Bank'] = info.get('Bank', bank.name)
                 info['Card'] = info.get('Card', card)
                 info['Date'] = info.get('Date', date)
                 que[position] = que.get(position, info)
