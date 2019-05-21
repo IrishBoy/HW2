@@ -19,6 +19,9 @@ def fill(rows):
 
 def total(info):
     frames = []
+    global full_table
+    cur_full = full_table
+    fram = [cur_full]
     for i in info:
         for j in info[i]:
             cur_bank = i
@@ -32,23 +35,31 @@ def total(info):
     total = total.reset_index(drop=True)
     total.index = np.arange(1, len(total) + 1)
     total['Card'] = total['Card'].apply(str)
-    # total = total['Card'].apply(str)
     total.loc['Total'] = pd.Series(total['Balance'].sum(), index=['Balance'])
     # print(total)
     total.at['Total', 'Сurrency'] = 'EUR'
-    total.at['Total', 'Bank Name'] = ' '
-    total.at['Total', 'Card'] = ' '
+    total.fillna('', inplace=True)
+    fram.append(total)
+    full_table = pd.concat(fram, sort=False)
+    full_table = full_table.reset_index(drop=True)
+    full_table.index = np.arange(1, len(full_table) + 1)
+    full_table.fillna('', inplace=True)
+    # print(full_table.to_string())
     print(total.to_string())
 
 
 def monthly_total(info):
-    print(1)
-    sys.exit()
+    cur_table = full_table
+    pd.to_datetime(cur_table['Date'])
+    cur_table['Year'], cur_table['Month'] = cur_table['Date'].dt.year, cur_table['Date'].dt.month
+    cur_date = info['Date']
+    print(cur_date.tm_year, cur_date.tm_mon)
+    cur_total = cur_table.loc[(cur_table['Year'] == cur_date.tm_year) & (cur_table['Month'] == cur_date.tm_mon)]
+    print(cur_total)
 
 
 def card_monthly(info):
-    print(2)
-    sys.exit()
+    print(info)
 
 
 table_name = 'table.xlsx'
@@ -57,49 +68,3 @@ captions = ('Bank Name', 'Card', 'Operation',
             'Balance', 'Date', 'Сurrency')
 use_captions = ['Bank Name', 'Card', 'Balance', 'Сurrency']
 table_path = os.path.join(folder_path, table_name)
-        # def card_month(self, card, date):
-# class Table_fill:
-#     table_name = 'table.xlsx'
-#     folder_path = sys.path[0]
-#     captions = ('Bank Name', 'Card', 'Operation',
-#                 'Balance', 'Date', 'Сurrency')
-
-#     def __init__(self):
-#         self.rows = []
-
-#     def work(self, rows):
-#         self.rows = rows
-#         self.ops_table = self.fill(self.rows)
-#         print(self.ops_table)
-
-#     def fill(self, rows):
-#         table_path = os.path.join(self.folder_path, self.table_name)
-#         table = pd.DataFrame(rows, columns=self.captions)
-#         table['Date'] = pd.to_datetime(table.Date)
-#         table = table.sort_values(by='Date')
-#         table = table.reset_index(drop=True)
-#         return table
-
-#     def total(self, info):
-#         print(self.rows)
-#         print(0)
-#         print(self.ops_table)
-#         frames = []
-#         print(info)
-#         for i in info:
-#             for j in info[i]:
-#                 print(1)
-#                 print(i, j)
-#                 print(self.ops_table)
-#                 cur_bank = i
-#                 cur_card = j
-#                 cur_total = self.ops_table.loc[(self.ops_table['Card'] == cur_card) & (self.ops_table['Bank Name'] == cur_bank)]
-#                 print(2)
-#                 cur_total.tail(1)
-#                 cur_total.loc[:, ['Bank Name', 'Card', 'Balance', 'Сurrency']]
-#                 frames.append(cur_total)
-#                 print(3)
-#         total = pd.contact(frames)
-#         print(4)
-#         print(total.to_string(index=False))
-#         print(5)
