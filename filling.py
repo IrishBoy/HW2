@@ -18,6 +18,7 @@ def fill(rows):
 
 
 def total(info):
+    writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []
     global full_table
     print(full_table)
@@ -49,7 +50,7 @@ def total(info):
     full_table.fillna('', inplace=True)
     full_table = full_table.rename({last_row: 'Total'})
     print(full_table.to_string())
-    full_table.to_excel(table_path)
+    full_table.to_excel(writer, sheet_name='Sheet1')
     print(total.to_string())
 
 
@@ -107,8 +108,11 @@ def monthly_total(info):
 
 
 def card_monthly(info):
+    frames = []
+    global full_table
     cur_table = full_table
-    pd.to_datetime(cur_table['Date'])
+    frames.append(cur_table)
+    cur_table['Date'] = pd.to_datetime(cur_table['Date'])
     cur_table['Year'], cur_table['Month'] = cur_table['Date'].dt.year, cur_table['Date'].dt.month
     cur_date = info['Date']
     cur_card = info['Card']
@@ -118,11 +122,25 @@ def card_monthly(info):
                               (cur_table['Card'] == cur_card) &
                               (cur_table['Bank Name'] == cur_bank)]
     cur_total = cur_total.loc[:, total_captions]
-    cur_total = cur_total.groupby(['Bank Name',
-                                   'Card'])['Operation'].agg('sum')
+    # cur_total = cur_total.groupby(['Bank Name',
+    #                                'Card'])['Operation'].agg('sum')
+    # cur_total = cur_total.groupby(['Bank Name', 'Card'],as_index = False).sum().pivot('Bank Name', 'Card').fillna(0)
+    cur_total = cur_total.groupby(['Bank Name', 'Card'])['Operation'].sum().reset_index()
     # if cur_total != [] and cur_total is not None:
     if cur_total.shape[0] != 0:
         print(cur_total.to_string())
+        while True:
+            ans = input('Do u want to write it to xlsx file?(y/n)')
+            if ans == 'y':
+                frames.append(cur_total)
+                full_table = pd.concat(frames, sort=False)
+                print(full_table.loc[:,['Bank Name', 'Card', 'Year', 'Month', 'Operation']])
+                # full_table.to_excel(table_path)
+                break
+            elif ans == 'n':
+                break
+            else:
+                print('Invalid choice')
     else:
         print("U spent nothing in that month from this card")
 
