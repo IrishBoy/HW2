@@ -23,7 +23,6 @@ def total(info):
     writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []
     global full_table
-    print(full_table)
     cur_full = full_table
     fram = [cur_full]
     for i in info:
@@ -51,7 +50,6 @@ def total(info):
     last_row = full_table.shape[0]
     full_table.fillna('', inplace=True)
     full_table = full_table.rename({last_row: 'Total'})
-    print(full_table.to_string())
     full_table.to_excel(writer, sheet_name='Sheet1')
     writer.save()
     print(total.to_string())
@@ -62,7 +60,6 @@ def monthly_total(info):
     frames = []
     global full_table
     cur_table = full_table
-    print(full_table)
     print(cur_table)
     frames.append(cur_table)
     cur_table['Date'] = pd.to_datetime(cur_table['Date'])
@@ -71,7 +68,7 @@ def monthly_total(info):
     cur_total = cur_table.loc[(cur_table['Year'] == cur_date.tm_year) & (cur_table['Month'] == cur_date.tm_mon)]
     cur_total = cur_total.loc[:, total_captions]
     cur_total = cur_total.groupby(['Bank Name',
-                                   'Card']).agg('sum')
+                                   'Card'])['Operation'].agg('sum')
     # cur_total.loc['Total'] = pd.Series(cur_total['Operation'].sum(), index = ['Operation'])
     # if cur_total != [] and cur_total is not None:
     # print(type(cur_total))
@@ -81,24 +78,22 @@ def monthly_total(info):
         while True:
             ans = input('Do u want to write it to xlsx file?(y/n)')
             if ans == 'y':
-                cur_total['Year'] = cur_date.tm_year
-                cur_total['Month'] = cur_date.tm_mon
-                cur_total['Currency'] = 'EUR'
-                full_table['Currency'] = 'EUR'
+                # cur_total['Year'] = cur_date.tm_year
+                # cur_total['Month'] = cur_date.tm_mon
+                # cur_total['Currency'] = 'EUR'
+                # full_table['Currency'] = 'EUR'
                 frames.append(cur_total)
                 full_table['Card'] = full_table.Card.astype(str)
                 print(full_table)
-                full_table = pd.concat(frames, sort=False)
+                full_table = pd.concat(frames, sort=False, ignore_index=False)
                 full_table['Card'] = full_table.Card.astype(str)
                 print(full_table)
                 full_table.fillna('', inplace=True)
-                full_table['Card'] = full_table.Card.astype(str)
-                full_table.fillna('', inplace=True)
-                full_table['Date'] = full_table['Date'].astype('datetime64[ns]')
-                full_table = full_table.loc[:, ['Bank Name', 'Card', 'Operation', 'Month', 'Year', 'Balance']]
+                # full_table['Date'] = full_table['Date'].astype('datetime64[ns]')
+                full_table = full_table.loc[:, ['Bank Name', 'Card', 'Operation', 'Month', 'Year', 'Balance', 'Operation']]
                 # full_table['Date'] = [''].astype('datetime64[ns]')
-                print(full_table)
-                full_table.to_excel(table_path, sheet_name='Sheet1')
+                print(full_table.to_string())
+                full_table.to_excel(writer, sheet_name='Sheet1')
                 writer.save()
                 break
             elif ans == 'n':
@@ -107,13 +102,46 @@ def monthly_total(info):
                 print('Invalid choice')
     else:
         print('U spent nothin in that month')
+    #     while True:
+    #         ans = input('Do u want to write it to xlsx file?(y/n)\n')
+    #         if ans == 'y':
+    #             cur_total['Year'] = cur_date.tm_year
+    #             cur_total['Month'] = cur_date.tm_mon
+    #             # cur_total['Currency'] = 'EUR'
+    #             frames.append(cur_total)
+    #             # full_table['Card'] = full_table.Card.astype(str)
+    #             print(cur_table)
+    #             full_table = pd.concat(frames, sort=False, ignore_index=False)
+    #             full_table['Card'] = full_table.Card.astype(str)
+    #             print(full_table)
+    #             # full_table.fillna('', inplace=True)
+    #             # full_table['Card'] = full_table.Card.astype(str)
+    #             full_table.fillna('', inplace=True)
+    #             full_table['Date'] = full_table['Date'].astype('datetime64[ns]')
+    #             full_table = full_table.loc[:, ['Bank Name', 'Card', 'Operation', 'Month', 'Year', 'Balance']]
+    #             # full_table['Date'] = [''].astype('datetime64[ns]')
+    #             # full_table['Currency'] = 'EUR'
+    #             full_table.fillna('', inplace=True)
+    #             # full_table.insert(full_table.shape[1], 'Currency', 'EUR')
+    #             print(full_table)
+    #             full_table.to_excel(writer, sheet_name='Sheet1')
+    #             writer.save()
+    #             break
+    #         elif ans == 'n':
+    #             break
+    #         else:
+    #             print('Invalid choice')
+    # else:
+    #     print('U spent nothin in that month')
     # else:
     #     print("U spent nothing in this month")
 
 
 def card_monthly(info):
+    global full_table
+    frames = []
     cur_table = full_table
-    pd.to_datetime(cur_table['Date'])
+    cur_table['Date'] = pd.to_datetime(cur_table['Date'])
     cur_table['Year'], cur_table['Month'] = cur_table['Date'].dt.year, cur_table['Date'].dt.month
     cur_date = info['Date']
     cur_card = info['Card']
@@ -128,6 +156,15 @@ def card_monthly(info):
     # if cur_total != [] and cur_total is not None:
     if cur_total.shape[0] != 0:
         print(cur_total.to_string())
+        while True:
+            ans = input('Do u want to write it down to xlsx report?(y/n)\n')
+            if ans == 'y':
+                print(1)
+                break
+            elif ans =='n':
+                break
+            else:
+                print('Invalid choice')
     else:
         print("U spent nothing in that month from this card")
 
