@@ -45,35 +45,25 @@ class PersonalManager:
 
     def monthly(self):
         while True:
-
             print("\nEnter month and year in the following format MM-YYYY or '0' to exit:")
             us_date = input('\nYour choice: ')
             if us_date == '0':
                 self.work()
-            try:
-                valid_date = time.strptime(us_date, '%m-%Y')
-                print('\nSelect a credit card: ')
-                pos, ch_date, info = self.card_monthly(valid_date)
-                ans = input('\nYour choice: ')
-                if ans.isdigit() and int(ans) == len(pos):
-                    # print(pos[int(ans)])
-                    pos[int(ans)]()
-                elif ans.isdigit() and int(ans) in pos:
-                    # print(pos[int(ans)])
-                    pos[int(ans)](info[int(ans)])
-                else:
-                    print('Invalid choice')
-                # while True:
-                #     try:
-                #         ans = int(ans)
-                #         if int(ans) == len(pos):
-                #             pos[int(ans)]()
-                #         elif int(ans) in pos:
-                #             pos[int(ans)]([info[int(ans)], ch_date])
-                #     except KeyError:
-                #         print('Invalid choice')
-            except ValueError:
-                print('Invalid date!')
+            else:
+                try:
+                    valid_date = time.strptime(us_date, '%m-%Y')
+                    while True:
+                        print('\nSelect a credit card: ')
+                        pos, ch_date, info = self.card_monthly(valid_date)
+                        ans = input('\nYour choice: ')
+                        if ans.isdigit() and int(ans) == len(pos):
+                            pos[int(ans)]()
+                        elif ans.isdigit() and int(ans) in pos:
+                            pos[int(ans)](info[int(ans)])
+                        else:
+                            print('Invalid choice')
+                except ValueError:
+                    print('Invalid date!')
 
     def card_monthly(self, date):
         pos = {}
