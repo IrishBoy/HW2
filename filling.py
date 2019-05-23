@@ -2,6 +2,7 @@ import sys
 import os
 import pandas as pd
 import numpy as np
+from xlsxwriter import *
 
 
 def work(rows):
@@ -21,7 +22,6 @@ def total(info):
     writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []
     global full_table
-    print(full_table)
     cur_full = full_table
     fram = [cur_full]
     for i in info:
@@ -49,17 +49,16 @@ def total(info):
     last_row = full_table.shape[0]
     full_table.fillna('', inplace=True)
     full_table = full_table.rename({last_row: 'Total'})
-    print(full_table.to_string())
     full_table.to_excel(writer, sheet_name='Sheet1')
+    writer.save()
     print(total.to_string())
 
 
 def monthly_total(info):
+    writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []
     global full_table
     cur_table = full_table
-    print(full_table)
-    print(cur_table)
     frames.append(cur_table)
     cur_table['Date'] = pd.to_datetime(cur_table['Date'])
     cur_table['Year'], cur_table['Month'] = cur_table['Date'].dt.year,cur_table['Date'].dt.month
@@ -67,35 +66,24 @@ def monthly_total(info):
     cur_total = cur_table.loc[(cur_table['Year'] == cur_date.tm_year) & (cur_table['Month'] == cur_date.tm_mon)]
     cur_total = cur_total.loc[:, total_captions]
     cur_total = cur_total.groupby(['Bank Name',
-                                   'Card']).agg('sum')
-    # cur_total.loc['Total'] = pd.Series(cur_total['Operation'].sum(), index = ['Operation'])
-    # if cur_total != [] and cur_total is not None:
-    # print(type(cur_total))
-    # cur_total = cur_total.reset_index(drop=True)
+                                   'Card'])['Operation'].sum().reset_index()
     if cur_total.shape[0] != 0:
         print(cur_total.to_string())
         while True:
             ans = input('Do u want to write it to xlsx file?(y/n)')
             if ans == 'y':
-                cur_total['Year'] = cur_date.tm_year
-                cur_total['Month'] = cur_date.tm_mon
-                cur_total['Currency'] = 'EUR'
-                full_table['Currency'] = 'EUR'
                 frames.append(cur_total)
-                full_table['Card'] = full_table.Card.astype(str)
-                print(full_table)
                 full_table = pd.concat(frames, sort=False)
-                full_table['Card'] = full_table.Card.astype(str)
+                full_table.fillna('', inplace=True)
                 print(full_table)
-                full_table.fillna('', inplace=True)
-                full_table['Card'] = full_table.Card.astype(str)
-                full_table.fillna('', inplace=True)
-                full_table['Date'] = full_table['Date'].astype('datetime64[ns]')
-                full_table = full_table.loc[:, ['Bank Name', 'Card', 'Operation']]
+                # full_table.fillna('', inplace=True)
+                # full_table['Card'] = full_table.Card.astype(str)
+                # full_table.fillna('', inplace=True)
+                # full_table['Date'] = full_table['Date'].astype('datetime64[ns]')
+                print(full_table.loc[:, ['Bank Name', 'Card', 'Operation', 'Year', 'Month']])
                 # full_table['Date'] = [''].astype('datetime64[ns]')
-                full_table.fillna('', inplace=True)
-                print(full_table)
-                full_table.to_excel(table_path)
+                full_table.to_excel(writer, sheet_name='Sheet1')
+                writer.save()
                 break
             elif ans == 'n':
                 break
@@ -108,6 +96,7 @@ def monthly_total(info):
 
 
 def card_monthly(info):
+    writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []
     global full_table
     cur_table = full_table
@@ -122,8 +111,6 @@ def card_monthly(info):
                               (cur_table['Card'] == cur_card) &
                               (cur_table['Bank Name'] == cur_bank)]
     cur_total = cur_total.loc[:, total_captions]
-    # cur_total = cur_total.groupby(['Bank Name',
-    #                                'Card'])['Operation'].agg('sum')
     # cur_total = cur_total.groupby(['Bank Name', 'Card'],as_index = False).sum().pivot('Bank Name', 'Card').fillna(0)
     cur_total = cur_total.groupby(['Bank Name', 'Card'])['Operation'].sum().reset_index()
     # if cur_total != [] and cur_total is not None:
@@ -134,8 +121,11 @@ def card_monthly(info):
             if ans == 'y':
                 frames.append(cur_total)
                 full_table = pd.concat(frames, sort=False)
+                full_table.fillna('', inplace=True)
                 print(full_table.loc[:,['Bank Name', 'Card', 'Year', 'Month', 'Operation']])
                 # full_table.to_excel(table_path)
+                full_table.to_excel(writer, sheet_name='Sheet1')
+                writer.save()
                 break
             elif ans == 'n':
                 break
