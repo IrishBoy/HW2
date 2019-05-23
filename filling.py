@@ -50,6 +50,10 @@ def total(info):
     full_table.fillna('', inplace=True)
     full_table = full_table.rename({last_row: 'Total'})
     full_table.to_excel(writer, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    worksheet.set_column(columns['Bank Name'], 20)
+    worksheet.set_column(columns['Date'], 20)
     writer.save()
     print(total.to_string())
 
@@ -72,17 +76,19 @@ def monthly_total(info):
         while True:
             ans = input('Do u want to write it to xlsx file?(y/n)')
             if ans == 'y':
+                cur_total['Year'] = cur_date.tm_year
+                cur_total['Month'] = cur_date.tm_mon
+                rows = full_table.shape[0]
+                cur_rows = cur_total.shape[0]
+                cur_total.index = np.arange(rows, rows + cur_rows)
                 frames.append(cur_total)
                 full_table = pd.concat(frames, sort=False)
                 full_table.fillna('', inplace=True)
-                print(full_table)
-                # full_table.fillna('', inplace=True)
-                # full_table['Card'] = full_table.Card.astype(str)
-                # full_table.fillna('', inplace=True)
-                # full_table['Date'] = full_table['Date'].astype('datetime64[ns]')
-                print(full_table.loc[:, ['Bank Name', 'Card', 'Operation', 'Year', 'Month']])
-                # full_table['Date'] = [''].astype('datetime64[ns]')
                 full_table.to_excel(writer, sheet_name='Sheet1')
+                workbook = writer.book
+                worksheet = writer.sheets['Sheet1']
+                worksheet.set_column(columns['Bank Name'], 20)
+                worksheet.set_column(columns['Date'], 20)
                 writer.save()
                 break
             elif ans == 'n':
@@ -111,20 +117,26 @@ def card_monthly(info):
                               (cur_table['Card'] == cur_card) &
                               (cur_table['Bank Name'] == cur_bank)]
     cur_total = cur_total.loc[:, total_captions]
-    # cur_total = cur_total.groupby(['Bank Name', 'Card'],as_index = False).sum().pivot('Bank Name', 'Card').fillna(0)
     cur_total = cur_total.groupby(['Bank Name', 'Card'])['Operation'].sum().reset_index()
-    # if cur_total != [] and cur_total is not None:
+    print(full_table)
     if cur_total.shape[0] != 0:
         print(cur_total.to_string())
         while True:
             ans = input('Do u want to write it to xlsx file?(y/n)')
             if ans == 'y':
+                cur_total['Year'] = cur_date.tm_year
+                cur_total['Month'] = cur_date.tm_mon
+                rows = full_table.shape[0]
+                cur_rows = cur_total.shape[0]
+                cur_total.index = np.arange(rows, rows + cur_rows)
                 frames.append(cur_total)
                 full_table = pd.concat(frames, sort=False)
                 full_table.fillna('', inplace=True)
-                print(full_table.loc[:,['Bank Name', 'Card', 'Year', 'Month', 'Operation']])
-                # full_table.to_excel(table_path)
                 full_table.to_excel(writer, sheet_name='Sheet1')
+                workbook = writer.book
+                worksheet = writer.sheets['Sheet1']
+                worksheet.set_column(columns['Bank Name'], 20)
+                worksheet.set_column(columns['Date'], 20)
                 writer.save()
                 break
             elif ans == 'n':
@@ -144,3 +156,13 @@ use_captions = ['Bank Name', 'Card', 'Balance', 'Сurrency']
 total_captions = ['Bank Name', 'Card', 'Operation']
 table_path = os.path.join(folder_path, table_name)
 full_table = pd.DataFrame()
+columns = {
+    'Bank Name': 'B:B',
+    'Card': 'C:C',
+    'Operation': 'D:D',
+    'Balance': 'E:E',
+    'Date': 'F:F',
+    'Currency': 'G:G',
+    'Year': 'H:H',
+    'Month': 'I:I',
+}
