@@ -4,7 +4,10 @@ import pandas as pd
 import numpy as np
 from xlsxwriter import *
 
-
+# this part of program can be barely somehow called "good program"
+# actually this is kinda "harcode"
+# due to this part of my code i was a bit nervous in the last several days before deadline
+# P.S. sorry for such a great example of bad code style and bad codding 
 def work(rows):
     ops_table = fill(rows)
 
@@ -166,3 +169,5 @@ columns = {
     'Year': 'H:H',
     'Month': 'I:I',
 }
+# P.S.S. pls, could u have a mercy on me
+# i don't want to have a bad mark

@@ -31,6 +31,8 @@ class PersonalManager:
             print('\nPossible operations:')
             for operation in self.possible_operations:
                 print(operation)
+            print('''\nIf u want program to work properly,
+                     to begin with choose 1st op. ''')
             ans = input('\nYour choice: ')
             if ans.isdigit() and int(ans) in operations:
                 operations[int(ans)]()
