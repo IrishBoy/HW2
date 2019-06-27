@@ -64,7 +64,7 @@ class PersonalManager:
                             pos[int(ans)](info[int(ans)])
                         else:
                             print('Invalid choice')
-                except ValueError:
+                except (ValueError, TypeError):
                     print('Invalid date!')
 
     def card_monthly(self, date):
@@ -83,7 +83,6 @@ class PersonalManager:
                 position += 1
         print(f'\n{position}. Total')
         que[position] = que.get(position, {'Date':date})
-        # pos[position + 1] = pos.get(position, 'Total')
         print(f'\n{position + 1}. Exit to main menu')
         pos[position] = pos.get(position, monthly_total)
         pos[position + 1] = pos.get(position + 1, self.work)
@@ -91,16 +90,3 @@ class PersonalManager:
 
     def exit(self):
         sys.exit()
-
-    def total(self):
-        pass
-
-
-    # def parse(self):
-    #     mess_path = os.path.join(self.folder_path, self.message_file)
-    #     mess_text = open(mess_path, 'r')
-    #     for line in mess_text:
-    #         row = []
-    #         for bank in self.bank:
-    #             if line.startswith(bank.phone):
-    #                 row.append(bank.name)
