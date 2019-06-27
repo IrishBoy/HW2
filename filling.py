@@ -8,6 +8,8 @@ from xlsxwriter import *
 # actually this is kinda "harcode"
 # due to this part of my code i was a bit nervous in the last several days before deadline
 # P.S. sorry for such a great example of bad code style and bad codding 
+
+
 def work(rows):
     ops_table = fill(rows)
 
@@ -41,11 +43,9 @@ def total(info):
     total.index = np.arange(1, len(total) + 1)
     total['Card'] = total['Card'].apply(str)
     total.loc['Total'] = pd.Series(total['Balance'].sum(), index=['Balance'])
-    # print(total)
     total.at['Total', 'Сurrency'] = currency
     total.fillna('', inplace=True)
     fram.append(total)
-    # global full_table
     full_table = pd.concat(fram, sort=False)
     full_table = full_table.reset_index(drop=True)
     full_table.index = np.arange(1, len(full_table) + 1)
@@ -74,7 +74,7 @@ def monthly_total(info):
     cur_total = cur_total.loc[:, total_captions]
     cur_total = cur_total.groupby(['Bank Name',
                                    'Card'])['Operation'].sum().reset_index()
-    if cur_total.shape[0] != 0:
+    if cur_total.shape[0]:
         print(cur_total.to_string())
         while True:
             ans = input('Do u want to write it to xlsx file?(y/n)')
@@ -100,10 +100,8 @@ def monthly_total(info):
                 print('Invalid choice')
     else:
         print('U spent nothin in that month')
-    # else:
-    #     print("U spent nothing in this month")
 
-
+        
 def card_monthly(info):
     writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []
@@ -122,8 +120,7 @@ def card_monthly(info):
     cur_total = cur_total.loc[:, total_captions]
     cur_total = cur_total.groupby(['Bank Name', 'Card'])['Operation'].sum().reset_index()
     print(full_table)
-    if cur_total.shape[0] != 0:
-        print(cur_total.to_string())
+    if cur_total.shape[0]:
         while True:
             ans = input('Do u want to write it to xlsx file?(y/n)')
             if ans == 'y':
@@ -170,4 +167,3 @@ columns = {
     'Month': 'I:I',
 }
 # P.S.S. pls, could u have a mercy on me
-# i don't want to have a bad mark
