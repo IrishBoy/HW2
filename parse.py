@@ -64,7 +64,6 @@ class Table:
                     else:
                         print("Nothing found!!")
                     result.append(row)
-                    # print(result, 1)
         mess_text.close()
         if result != [] and result is not None:
             return result
