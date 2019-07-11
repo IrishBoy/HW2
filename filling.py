@@ -76,9 +76,8 @@ def monthly_total(info):
                                    'Card'])['Operation'].sum().reset_index()
     if cur_total.shape[0]:
         print(cur_total.to_string())
-        while True:
-            ans = input('Do u want to write it to xlsx file?(y/n)')
-            if ans == 'y':
+        while True: 
+            if input('Do u want to write it to xlsx file?(y/n)') == 'y':
                 cur_total['Year'] = cur_date.tm_year
                 cur_total['Month'] = cur_date.tm_mon
                 rows = full_table.shape[0]
@@ -94,7 +93,7 @@ def monthly_total(info):
                 worksheet.set_column(columns['Date'], 20)
                 writer.save()
                 break
-            elif ans == 'n':
+            elif input('Do u want to write it to xlsx file?(y/n)') == 'n':
                 break
             else:
                 print('Invalid choice')
@@ -119,11 +118,9 @@ def card_monthly(info):
                               (cur_table['Bank Name'] == cur_bank)]
     cur_total = cur_total.loc[:, total_captions]
     cur_total = cur_total.groupby(['Bank Name', 'Card'])['Operation'].sum().reset_index()
-    print(full_table)
     if cur_total.shape[0]:
         while True:
-            ans = input('Do u want to write it to xlsx file?(y/n)')
-            if ans == 'y':
+            if input('Do u want to write it to xlsx file?(y/n)') == 'y':
                 cur_total['Year'] = cur_date.tm_year
                 cur_total['Month'] = cur_date.tm_mon
                 rows = full_table.shape[0]
@@ -139,7 +136,7 @@ def card_monthly(info):
                 worksheet.set_column(columns['Date'], 20)
                 writer.save()
                 break
-            elif ans == 'n':
+            elif input('Do u want to write it to xlsx file?(y/n)') == 'n':
                 break
             else:
                 print('Invalid choice')
