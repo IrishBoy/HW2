@@ -48,8 +48,7 @@ class PersonalManager:
     def monthly(self):
         while True:
             print("\nEnter month and year in the following format MM-YYYY or '0' to exit:")
-            us_date = input('\nYour choice: ')
-            if us_date == '0':
+            if input('\nYour choice: ') == '0':
                 self.work()
             else:
                 try:
