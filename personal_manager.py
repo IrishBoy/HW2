@@ -1,7 +1,5 @@
 import sys
 import time
-import os
-import sys
 from parse import Table
 from filling import total, monthly_total, card_monthly
 
@@ -47,8 +45,10 @@ class PersonalManager:
 
     def monthly(self):
         while True:
-            print("\nEnter month and year in the following format MM-YYYY or '0' to exit:")
-            if input('\nYour choice: ') == '0':
+            us_date = input('''\nEnter month and year
+                                in the following format
+                                MM-YYYY or '0' to exit:''')
+            if input(us_date) == '0':
                 self.work()
             else:
                 try:
@@ -81,7 +81,7 @@ class PersonalManager:
                 print(f'{position}. {card}, {bank.name}')
                 position += 1
         print(f'\n{position}. Total')
-        que[position] = que.get(position, {'Date':date})
+        que[position] = que.get(position, {'Date': date})
         print(f'\n{position + 1}. Exit to main menu')
         pos[position] = pos.get(position, monthly_total)
         pos[position + 1] = pos.get(position + 1, self.work)

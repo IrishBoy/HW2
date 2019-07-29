@@ -70,13 +70,14 @@ def monthly_total(info):
     cur_table['Date'] = pd.to_datetime(cur_table['Date'])
     cur_table['Year'], cur_table['Month'] = cur_table['Date'].dt.year,cur_table['Date'].dt.month
     cur_date = info['Date']
-    cur_total = cur_table.loc[(cur_table['Year'] == cur_date.tm_year) & (cur_table['Month'] == cur_date.tm_mon)]
+    cur_total = cur_table.loc[(cur_table['Year'] == cur_date.tm_year) &
+                              (cur_table['Month'] == cur_date.tm_mon)]
     cur_total = cur_total.loc[:, total_captions]
     cur_total = cur_total.groupby(['Bank Name',
                                    'Card'])['Operation'].sum().reset_index()
     if cur_total.shape[0]:
         print(cur_total.to_string())
-        while True: 
+        while True:
             if input('Do u want to write it to xlsx file?(y/n)') == 'y':
                 cur_total['Year'] = cur_date.tm_year
                 cur_total['Month'] = cur_date.tm_mon
@@ -100,7 +101,7 @@ def monthly_total(info):
     else:
         print('U spent nothin in that month')
 
-        
+
 def card_monthly(info):
     writer = pd.ExcelWriter(table_path, engine='xlsxwriter')
     frames = []

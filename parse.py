@@ -1,8 +1,6 @@
-from openpyxl import *
 import os
 import sys
 import re
-import pandas as pd
 import datetime
 from filling import work
 
@@ -42,7 +40,8 @@ class Table:
                         cur_card = bank.card_start + str(card)
                         if cur_card in line:
                             row.append(card)
-                            line = line.replace(str(bank.card_start) + str(card), '', 1)
+                            line = line.replace(str(bank.card_start) +
+                                                str(card), '', 1)
                     if bank.minus in line:
                         cur_op = '-'
                         line = line.replace(bank.minus, '', 1)
